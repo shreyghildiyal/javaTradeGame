@@ -31,7 +31,9 @@ val lwjglNatives = "natives-windows"
 
 dependencies {
 
-        // Use JUnit Jupiter for testing.
+	// implementation("simplexSolver:0.0.1")
+
+    // Use JUnit Jupiter for testing.
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
 
     // This dependency is used by the application.

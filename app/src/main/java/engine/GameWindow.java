@@ -32,26 +32,36 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
+import utils.Time;
+
 // import org.lwjgl.glfw.GLFWErrorCallback;
-
-
-
 
 public class GameWindow {
 
     final private int swapInterval = 1;
-    
+
     private int height;
     private int width;
     private String name;
 
     private long glfwWindow;
     private static GameWindow window;
+    
+    private static Scene currentScene = null;
+
+    private float r, g, b, a;
+    private final float baseR = 1.0f;
+    private final float baseG = 0.75f;
+    private final float baseB = 0.5f;
 
     private GameWindow() {
         height = 200;
         width = 300;
         name = "Hello";
+        r = baseR;
+        g = baseG;
+        b = baseB;
+        a = 1;
     }
 
     public static GameWindow getGameWindow() {
@@ -85,7 +95,7 @@ public class GameWindow {
         GLFWErrorCallback.createPrint(System.err).set();
 
         // Initialize GLFW
-        if ( !glfwInit() ) {
+        if (!glfwInit()) {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
 
@@ -107,7 +117,7 @@ public class GameWindow {
         glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
         glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
 
-        //Setup Keyboard callbacks
+        // Setup Keyboard callbacks
         glfwSetKeyCallback(glfwWindow, KeyboardListener::keyCallback);
 
         // Make the OpenGL context current
@@ -121,22 +131,63 @@ public class GameWindow {
 
         // Important for some bindings
         GL.createCapabilities();
+
+        currentScene = new LevelEditorScene();
     }
 
     private void loop() {
         System.out.println("Starting the game loop");
-        while  (!glfwWindowShouldClose(glfwWindow)) {
+
+        // float startTime = Time.getTimeNanoSeconds();
+        float prevStart = Time.getTimeNanoSeconds();
+        float deltaTime;
+
+        while (!glfwWindowShouldClose(glfwWindow)) {
+
+            deltaTime = Time.getTimeNanoSeconds() - prevStart;
+            prevStart = Time.getTimeNanoSeconds();
             // Poll events
             glfwPollEvents();
 
-            glClearColor(1.0f, 0.5f, 0.0f, 1.0f);
+            
+
+            glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            if (KeyboardListener.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
-                System.out.println("The space key is pressed right now");
-            }
+            
+            currentScene.update(deltaTime);
+            // if (KeyboardListener.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
+            //     r = r * 0.9f;
+            //     g = g * 0.9f;
+            //     b = b * 0.9f;
+            // }
+
+            // if (r < 0.001) {
+            //     r = 1;
+            //     g = 0.5f;
+            // }
 
             glfwSwapBuffers(glfwWindow);
+
         }
+    }
+
+    public static void changeScene(int newScene) {
+
+        if (newScene == 0) {
+            currentScene = new LevelEditorScene();
+        } else if (newScene == 1) {
+            currentScene = new LevelScene();
+        } else {
+            assert false;
+        }
+
+        
+    }
+
+    public void setBrightness(float f) {
+        r = baseR * f;
+        g = baseG * f;
+        b = baseB * f;
     }
 }
