@@ -57,7 +57,7 @@ public class LevelEditorScene extends Scene {
     private int eboID;
 
     public LevelEditorScene() {
-
+        init();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class LevelEditorScene extends Scene {
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
 
-        glDrawElements(GL_TRIANGLES, elementArray.length, GL_INT, 0);
+        glDrawElements(GL_TRIANGLES, elementArray.length, GL_UNSIGNED_INT, 0);
 
         // Unbind everything
         glDisableVertexAttribArray(0);

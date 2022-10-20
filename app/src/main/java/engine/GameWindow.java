@@ -54,8 +54,8 @@ public class GameWindow {
     private final float baseB = 0.5f;
 
     private GameWindow() {
-        height = 200;
-        width = 300;
+        height = 500;
+        width = 800;
         name = "Hello";
         r = baseR;
         g = baseG;
@@ -147,10 +147,10 @@ public class GameWindow {
             prevStart = Time.getTimeNanoSeconds();
             // Poll events
             glfwPollEvents();
-            currentScene.update(deltaTime);
-
             glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
+
+            currentScene.update(deltaTime);
 
             // if (KeyboardListener.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
             // r = r * 0.9f;

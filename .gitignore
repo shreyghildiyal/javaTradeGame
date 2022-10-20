@@ -6,3 +6,5 @@ build
 
 # Ignore vscode specific files
 .vscode/*
+
+app/bin/*
