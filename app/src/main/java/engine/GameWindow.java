@@ -28,7 +28,6 @@ import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
@@ -46,7 +45,7 @@ public class GameWindow {
 
     private long glfwWindow;
     private static GameWindow window;
-    
+
     private static Scene currentScene = null;
 
     private float r, g, b, a;
@@ -148,23 +147,20 @@ public class GameWindow {
             prevStart = Time.getTimeNanoSeconds();
             // Poll events
             glfwPollEvents();
-
-            
+            currentScene.update(deltaTime);
 
             glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            
-            currentScene.update(deltaTime);
             // if (KeyboardListener.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
-            //     r = r * 0.9f;
-            //     g = g * 0.9f;
-            //     b = b * 0.9f;
+            // r = r * 0.9f;
+            // g = g * 0.9f;
+            // b = b * 0.9f;
             // }
 
             // if (r < 0.001) {
-            //     r = 1;
-            //     g = 0.5f;
+            // r = 1;
+            // g = 0.5f;
             // }
 
             glfwSwapBuffers(glfwWindow);
@@ -176,13 +172,14 @@ public class GameWindow {
 
         if (newScene == 0) {
             currentScene = new LevelEditorScene();
+            currentScene.init();
         } else if (newScene == 1) {
             currentScene = new LevelScene();
+            currentScene.init();
         } else {
             assert false;
         }
 
-        
     }
 
     public void setBrightness(float f) {
