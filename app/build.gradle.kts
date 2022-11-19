@@ -9,6 +9,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
+	id("io.freefair.lombok") version "6.6-rc1"
 }
 
 repositories {
@@ -31,7 +32,8 @@ val lwjglNatives = "natives-windows"
 
 dependencies {
 
-	// implementation("simplexSolver:0.0.1")
+	implementation("org.apache.logging.log4j:log4j-api:2.19.0")
+  	implementation("org.apache.logging.log4j:log4j-core:2.19.0")
 
     // Use JUnit Jupiter for testing.
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
